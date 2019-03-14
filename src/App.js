@@ -8,6 +8,13 @@ class App extends Component {
     groupBy: ''
   };
 
+  intervalFormats = new Map([
+    ['week', 'YYYY-ww'],
+    ['month', 'YYYY-MM'],
+    ['quarter', 'YYYY-Q'],
+    ['year', 'YYYY']
+  ]);
+
   componentDidMount() {
     this.setState({
       data: jsonData
@@ -59,7 +66,7 @@ class App extends Component {
   groupDataByWeek = () => {
     const dataWithWeekAsDate = this.state.data.map(item => ({
       ...item,
-      date: moment(item.date).format('YYYY-ww')
+      date: moment(item.date).format(this.intervalFormats.get('week'))
     }));
     const weeks = [...new Set(dataWithWeekAsDate.map(item => item.date))];
     return this.getDataGroupedByInterval(weeks, dataWithWeekAsDate);
@@ -68,7 +75,7 @@ class App extends Component {
   groupDataByMonth = () => {
     const dataWithMonthAsDate = this.state.data.map(item => ({
       ...item,
-      date: moment(item.date).format('YYYY-MM')
+      date: moment(item.date).format(this.intervalFormats.get('month'))
     }));
     const months = [...new Set(dataWithMonthAsDate.map(item => item.date))];
     return this.getDataGroupedByInterval(months, dataWithMonthAsDate);
@@ -77,7 +84,7 @@ class App extends Component {
   groupDataByQuarter = () => {
     const dataWithQuarterAsDate = this.state.data.map(item => ({
       ...item,
-      date: moment(item.date).format('YYYY-Q')
+      date: moment(item.date).format(this.intervalFormats.get('quarter'))
     }));
     const quarters = [...new Set(dataWithQuarterAsDate.map(item => item.date))];
     return this.getDataGroupedByInterval(quarters, dataWithQuarterAsDate);
@@ -86,7 +93,7 @@ class App extends Component {
   groupDataByYear = () => {
     const dataWithYearAsDate = this.state.data.map(item => ({
       ...item,
-      date: moment(item.date).format('YYYY')
+      date: moment(item.date).format(this.intervalFormats.get('year'))
     }));
     const years = [...new Set(dataWithYearAsDate.map(item => item.date))];
     return this.getDataGroupedByInterval(years, dataWithYearAsDate);
