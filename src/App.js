@@ -24,31 +24,58 @@ class App extends Component {
       case 'day':
         return this.groupDataByDay();
       case 'week':
-        return this.groupDataByMonth();
+        return this.groupDataByWeek();
       case 'month':
         return this.groupDataByMonth();
       case 'quarter':
-        return this.groupDataByMonth();
+        return this.groupDataByQuarter();
       case 'year':
-        return this.groupDataByMonth();
+        return this.groupDataByYear();
       case '':
       default:
         return this.state.data;
     }
   };
 
-  groupDataByDay = () => {
-    const days = [...new Set(this.state.data.map(item => item.date))];
-
-    const dataGroupedByDays = days.map(day => {
-      const filteredData = this.state.data.filter(item => item.date == day);
+  getDataGroupedByInterval = (intervals, dataWithIntervalAsDate) => {
+    const dataGroupedByInterval = intervals.map(interval => {
+      const filteredData = dataWithIntervalAsDate.filter(
+        item => item.date === interval
+      );
       return {
-        date: day,
+        date: interval,
         value: filteredData.reduce((sum, item) => sum + item.value, 0)
       };
     });
 
+    return dataGroupedByInterval;
+  };
+
+  groupDataByDay = () => {
+    const days = [...new Set(this.state.data.map(item => item.date))];
+
+    const dataGroupedByDays = this.getDataGroupedByInterval(
+      days,
+      this.state.data
+    );
+
     return dataGroupedByDays;
+  };
+
+  groupDataByWeek = () => {
+    const dataWithWeekAsDate = this.state.data.map(item => {
+      const weekOfYear = moment(item.date).format('YYYY-ww');
+      return { ...item, date: weekOfYear };
+    });
+
+    const weeks = [...new Set(dataWithWeekAsDate.map(item => item.date))];
+
+    const dataGroupedByWeek = this.getDataGroupedByInterval(
+      weeks,
+      dataWithWeekAsDate
+    );
+
+    return dataGroupedByWeek;
   };
 
   groupDataByMonth = () => {
@@ -59,17 +86,44 @@ class App extends Component {
 
     const months = [...new Set(dataWithMonthAsDate.map(item => item.date))];
 
-    const dataGroupedByMonth = months.map(month => {
-      const filteredData = dataWithMonthAsDate.filter(
-        item => item.date == month
-      );
-      return {
-        date: month,
-        value: filteredData.reduce((sum, item) => sum + item.value, 0)
-      };
-    });
+    const dataGroupedByMonth = this.getDataGroupedByInterval(
+      months,
+      dataWithMonthAsDate
+    );
 
     return dataGroupedByMonth;
+  };
+
+  groupDataByQuarter = () => {
+    const dataWithQuarterAsDate = this.state.data.map(item => {
+      const quarterOfYear = moment(item.date).format('YYYY-Q');
+      return { ...item, date: quarterOfYear };
+    });
+
+    const quarters = [...new Set(dataWithQuarterAsDate.map(item => item.date))];
+
+    const dataGroupedByQuarter = this.getDataGroupedByInterval(
+      quarters,
+      dataWithQuarterAsDate
+    );
+
+    return dataGroupedByQuarter;
+  };
+
+  groupDataByYear = () => {
+    const dataWithYearAsDate = this.state.data.map(item => {
+      const yearOfYear = moment(item.date).format('YYYY');
+      return { ...item, date: yearOfYear };
+    });
+
+    const years = [...new Set(dataWithYearAsDate.map(item => item.date))];
+
+    const dataGroupedByYear = this.getDataGroupedByInterval(
+      years,
+      dataWithYearAsDate
+    );
+
+    return dataGroupedByYear;
   };
 
   render() {
