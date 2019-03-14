@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import jsonData from './data.json';
 
 class App extends Component {
+  state = {
+    dataKeys: [],
+    data: []
+  };
+
+  componentDidMount() {
+    this.setState({
+      dataKeys: [{ id: 'date', name: 'Date' }, { id: 'value', name: 'Value' }],
+      data: jsonData
+    });
+  }
+
   render() {
+    const dataKeyIds = this.state.dataKeys.map(dataKey => dataKey.id);
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              {this.state.dataKeys.map(dataKey => (
+                <th key={dataKey.id}>{dataKey.name}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.data.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                {dataKeyIds.map(key => (
+                  <td key={key}>{item[key]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
