@@ -1,4 +1,16 @@
+# react-group-by-date
+
+Group date based data by day, week, month, quarter and year
+
+## Project Code
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Install dependencies
+
+In the project directory, you can run:
+
+### `npm install`
 
 ## Available Scripts
 
