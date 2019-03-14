@@ -53,77 +53,43 @@ class App extends Component {
 
   groupDataByDay = () => {
     const days = [...new Set(this.state.data.map(item => item.date))];
-
-    const dataGroupedByDays = this.getDataGroupedByInterval(
-      days,
-      this.state.data
-    );
-
-    return dataGroupedByDays;
+    return this.getDataGroupedByInterval(days, this.state.data);
   };
 
   groupDataByWeek = () => {
-    const dataWithWeekAsDate = this.state.data.map(item => {
-      const weekOfYear = moment(item.date).format('YYYY-ww');
-      return { ...item, date: weekOfYear };
-    });
-
+    const dataWithWeekAsDate = this.state.data.map(item => ({
+      ...item,
+      date: moment(item.date).format('YYYY-ww')
+    }));
     const weeks = [...new Set(dataWithWeekAsDate.map(item => item.date))];
-
-    const dataGroupedByWeek = this.getDataGroupedByInterval(
-      weeks,
-      dataWithWeekAsDate
-    );
-
-    return dataGroupedByWeek;
+    return this.getDataGroupedByInterval(weeks, dataWithWeekAsDate);
   };
 
   groupDataByMonth = () => {
-    const dataWithMonthAsDate = this.state.data.map(item => {
-      const monthOfYear = moment(item.date).format('YYYY-MM');
-      return { ...item, date: monthOfYear };
-    });
-
+    const dataWithMonthAsDate = this.state.data.map(item => ({
+      ...item,
+      date: moment(item.date).format('YYYY-MM')
+    }));
     const months = [...new Set(dataWithMonthAsDate.map(item => item.date))];
-
-    const dataGroupedByMonth = this.getDataGroupedByInterval(
-      months,
-      dataWithMonthAsDate
-    );
-
-    return dataGroupedByMonth;
+    return this.getDataGroupedByInterval(months, dataWithMonthAsDate);
   };
 
   groupDataByQuarter = () => {
-    const dataWithQuarterAsDate = this.state.data.map(item => {
-      const quarterOfYear = moment(item.date).format('YYYY-Q');
-      return { ...item, date: quarterOfYear };
-    });
-
+    const dataWithQuarterAsDate = this.state.data.map(item => ({
+      ...item,
+      date: moment(item.date).format('YYYY-Q')
+    }));
     const quarters = [...new Set(dataWithQuarterAsDate.map(item => item.date))];
-
-    const dataGroupedByQuarter = this.getDataGroupedByInterval(
-      quarters,
-      dataWithQuarterAsDate
-    );
-
-    return dataGroupedByQuarter;
+    return this.getDataGroupedByInterval(quarters, dataWithQuarterAsDate);
   };
 
   groupDataByYear = () => {
-    const dataWithYearAsDate = this.state.data.map(item => {
-      const yearOfYear = moment(item.date).format('YYYY');
-      return { ...item, date: yearOfYear };
-    });
-
+    const dataWithYearAsDate = this.state.data.map(item => ({
+      ...item,
+      date: moment(item.date).format('YYYY')
+    }));
     const years = [...new Set(dataWithYearAsDate.map(item => item.date))];
-
-    const dataGroupedByYear = this.getDataGroupedByInterval(
-      years,
-      dataWithYearAsDate
-    );
-
-    return dataGroupedByYear;
+    return this.getDataGroupedByInterval(years, dataWithYearAsDate);
   };
 
   render() {
