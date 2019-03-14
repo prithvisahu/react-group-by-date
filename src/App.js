@@ -22,7 +22,7 @@ class App extends Component {
   groupData = () => {
     switch (this.state.groupBy) {
       case 'day':
-        return this.groupDataByMonth();
+        return this.groupDataByDay();
       case 'week':
         return this.groupDataByMonth();
       case 'month':
@@ -35,6 +35,20 @@ class App extends Component {
       default:
         return this.state.data;
     }
+  };
+
+  groupDataByDay = () => {
+    const days = [...new Set(this.state.data.map(item => item.date))];
+
+    const dataGroupedByDays = days.map(day => {
+      const filteredData = this.state.data.filter(item => item.date == day);
+      return {
+        date: day,
+        value: filteredData.reduce((sum, item) => sum + item.value, 0)
+      };
+    });
+
+    return dataGroupedByDays;
   };
 
   groupDataByMonth = () => {
