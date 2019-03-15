@@ -68,12 +68,13 @@ class App extends Component {
     const groupedData = this.groupData();
 
     return (
-      <div className="App">
-        <div>
+      <div className="App" style={{ padding: '20px' }}>
+        <div className="GroupBySelect">
           <label>Group By: </label>
           <select
             defaultValue={this.state.groupBy}
             onChange={this.handleGroupByChange}
+            style={{ padding: '5px', marginLeft: '5px' }}
           >
             <option value="">None</option>
             <option value="day">Day</option>
@@ -83,24 +84,26 @@ class App extends Component {
             <option value="year">Year</option>
           </select>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Date</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groupedData.map((item, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.date}</td>
-                <td>{item.value}</td>
+        <div className="Output" style={{ marginTop: '20px' }}>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Value</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {groupedData.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.date}</td>
+                  <td style={{ textAlign: 'right' }}>{item.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
